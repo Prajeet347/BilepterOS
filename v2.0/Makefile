@@ -12,3 +12,6 @@ build/main.bin: src/main.asm
 
 run:
 	qemu-system-i386 -fda build/main_floppy.img
+
+clean:
+	rm -rf build/*.bin build/*.img
