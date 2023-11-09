@@ -1,0 +1,18 @@
+//clear_screen();
+//kprint_at("BilepterOS V1.0  Copyright (C) 2023 Prattay Sarkar", 1, 1);
+//kprint_at("This program comes with ABSOLUTELY NO WARRANTY", 1, 2);
+//kprint_at("For More Details, Visit https://www.gnu.org/licenses/gpl-3.0.en.html", 1, 3);
+//kprint_at("This is free software, and you are welcome to redistribute it.", 1, 4);
+
+PBGGGGGG!^^^^^^^7:     
+7^5@@@@@@^       !^     
+7. !#@@@@^       !:     
+7.  .5@@@^       !:     
+7.    !#@^       !:     
+7.     .P!.::::::?:     
+7.      :#7..:...7:     
+7.      :@@J     !:     
+7.      :@@@B~   !:     
+7.      :@@@@@J  !:     
+7.      :@@@@@@B^!^     
+!~^^^^^^~BBBBBBBGY:   
