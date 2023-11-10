@@ -1,17 +1,34 @@
 ASM = nasm
 
-BUILD_DIR = build
+.PHONY: all floppy_image kernel bootloader clean always
 
+floppy_image: build/main_floppy.img
 
-build/main_floppy.img: build/main.bin
-	cp build/main.bin build/main_floppy.img
-	truncate -s 1440k build/main_floppy.img
+build/main_floppy.img: bootloader kernel
+	dd if=/dev/zero of=build/main_floppy.img bs=512 count=2880
+	mkfs.fat -F 12 -n "BILEPTEROS" build/main_floppy.img
+	dd if=build/bootloader.bin of=build/main_floppy.img conv=notrunc
+	mcopy -i build/main_floppy.img build/kernel.bin "::kernel.bin"
 
 build/main.bin: src/main.asm
 	$(ASM) src/main.asm -f bin -o build/main.bin 
+
+bootloader: build/bootloader.bin
+	$(ASM) src/bootloader/boot.asm -f bin -o build/bootloader.bin
+ 
+kernel: build/kernel.bin
+
+build/kernel.bin: always
+	$(ASM) src/kernel/main.asm -f bin -o build/kernel.bin
+
+build/bootloader.bin: always
+	$(ASM) src/bootloader/boot.asm -f bin -o build/bootloader.bin
+
+always:
+	mkdir -p build
 
 run:
 	qemu-system-i386 -fda build/main_floppy.img
 
 clean:
-	rm -rf build/*.bin build/*.img
+	rm -rf build/*	
