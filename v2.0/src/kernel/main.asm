@@ -1,47 +1,45 @@
-[org 0x7c00]
-[bits 16]
+org 0x0
+bits 16
 
-%define endl 0x0d, 0x0a
+
+%define ENDL 0x0D, 0x0A
+
 
 start:
-    jmp main
-
-puts: ; Function For Printing A String
-    push si
-    push ax
-.loop:
-    lodsb
-    or al, al
-    jz .done
-    mov ah, 0x0e
-    mov bh, 0
-    int 0x10
-    jmp .loop
-.done:
-    pop ax
-    pop si
-    ret
-
-main:
-    ; Setup Data Segments
-    mov ax, 0
-    mov ds, ax
-    mov es, ax
-
-    ; Setup Stack
-    mov ss, ax
-    mov sp, 0x7c00
-
-    ; Print Message
-    mov si, welcomestr
+    ; print hello world message
+    mov si, msg_hello
     call puts
 
+.halt:
+    cli
     hlt
 
-.halt:
-    jmp .halt
+;
+; Prints a string to the screen
+; Params:
+;   - ds:si points to string
+;
+puts:
+    ; save registers we will modify
+    push si
+    push ax
+    push bx
 
-welcomestr: db "BilepterOS v1.0 Copyright (C) 2023 Prattay Sarkar", endl, 0
+.loop:
+    lodsb               ; loads next character in al
+    or al, al           ; verify if next character is null?
+    jz .done
 
-times 510-($-$$) db 0
-dw 0xaa55
+    mov ah, 0x0E        ; call bios interrupt
+    mov bh, 0           ; set page number to 0
+    int 0x10
+
+    jmp .loop
+
+.done:
+    pop bx
+    pop ax
+    pop si    
+    ret
+
+msg_hello: db 'Hello world from KERNEL!', ENDL, 0
