@@ -8,5 +8,6 @@ void _cdecl cstart_(uint16_t bootDrive)
             "For More Details, Visit https://www.gnu.org/licenses/gpl-3.0.en.html\r\n"
             "This is free software, and you are welcome to redistribute it.\r\n\n"
     );
+    printf("Formatted %% %s", "This!\r\n");
     for (;;);
 }
